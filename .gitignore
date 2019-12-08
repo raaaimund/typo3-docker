@@ -1,0 +1,13 @@
+site/vendor/
+site/var/
+site/sql/
+site/public/index.php
+site/public/typo3/
+site/public/typo3temp/
+site/public/typo3conf/l10n
+site/public/typo3conf/LocalConfiguration.php
+site/public/typo3conf/PackageStates.php
+site/public/typo3conf/ext/*
+!site/public/typo3conf/ext/myextension1/
+!site/public/typo3conf/ext/myextension2/
+site/public/uploads/

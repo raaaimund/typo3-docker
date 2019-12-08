@@ -1,40 +1,41 @@
 version: '3'
 services:
   web:
-    build: ./config/web/.
+    build: ./container/web/.
     depends_on: 
       - php
       - db
     ports:
       - '80:80'
     volumes:
-      - html:/var/www/html
-      - ./config/web/nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./config/web/AdditionalConfiguration.php:/var/www/html/public/typo3conf/AdditionalConfiguration.php
+      - ./site:/var/www/html
+      - ./container/web/nginx.conf:/etc/nginx/conf.d/default.conf
   
   composer:
-    build: ./config/composer/.
+    build: ./container/composer/.
     depends_on:
         - db
     volumes:
-        - html:/site
+        - ./site:/site
     environment: 
-      TYPO3_INSTALL_DB_USER: typo3
-      TYPO3_INSTALL_DB_PASSWORD: abcdefghi
-      TYPO3_INSTALL_DB_HOST: db
-      TYPO3_INSTALL_DB_PORT: 3306
-      TYPO3_INSTALL_DB_USE_EXISTING: 1
-      TYPO3_INSTALL_DB_DBNAME: typo3
-      TYPO3_INSTALL_ADMIN_USER: admin
-      TYPO3_INSTALL_ADMIN_PASSWORD: abcdefghi
-      TYPO3_INSTALL_SITE_NAME: 'My Site'
+      TYPO3_INSTALL_DB_USER: ${DB_USER}
+      TYPO3_INSTALL_DB_PASSWORD: ${DB_PASS}
+      TYPO3_INSTALL_DB_HOST: ${DB_HOST}
+      TYPO3_INSTALL_DB_PORT: ${DB_PORT}
+      TYPO3_INSTALL_DB_USE_EXISTING: ${DB_USE_EXISTING}
+      TYPO3_INSTALL_DB_DBNAME: ${DB_NAME}
+      TYPO3_INSTALL_ADMIN_USER: ${TYPO3_USER}
+      TYPO3_INSTALL_ADMIN_PASSWORD: ${TYPO3_PASS}
+      TYPO3_INSTALL_SITE_NAME: ${TYPO3_SITE_NAME}
   
   php:
-      build: ./config/php/.
+      build: ./container/php/.
       volumes:
-        - html:/var/www/html
-        - ./config/php/php.ini:/usr/local/etc/php/php.ini
-        - ./config/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+        - ./site:/var/www/html
+        - ./container/php/php.ini:/usr/local/etc/php/php.ini
+        - ./container/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
+      environment: 
+        TYPO3_CONTEXT: Development
 
   db:
       image: mysql:8.0.17
@@ -42,11 +43,10 @@ services:
       volumes:
           - db-data:/var/lib/mysql
       environment:
-        MYSQL_USER: typo3
-        MYSQL_PASSWORD: abcdefghi
-        MYSQL_DATABASE: typo3
-        MYSQL_ROOT_PASSWORD: abcdefghi
+        MYSQL_USER: ${DB_USER}
+        MYSQL_PASSWORD: ${DB_PASS}
+        MYSQL_DATABASE: ${DB_NAME}
+        MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASS}
 
 volumes:
-  html:
   db-data:

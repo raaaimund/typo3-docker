@@ -1,1 +1,0 @@
-sleep 10 && ./vendor/bin/typo3cms install:setup --no-interaction && ./vendor/bin/typo3cms cache:flush
