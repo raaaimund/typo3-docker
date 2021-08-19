@@ -1,7 +1,10 @@
 # Typo3 <3 Docker
 
+## clean.bat
+Run 'clean.bat' to remove the containers and volumes.
+
 ## build.bat
-Run 'build.bat' to remove the volumes and rebuild the images. 
+Run 'build.bat' to rebuild the images. 
 You will end up with a brand new Typo3 installation.
 
 Place a sql dump file called _dump.sql_ inside _site/sql_ to import this dump during installation.
@@ -24,7 +27,7 @@ MySQL Database:
 ## container
 
 ### composer
-Installs all packages from composer.json.
+Executs 'composer install'. See [composer.json](./container/composer/composer.json) for more details which dependencies get installed and which scripts get executed. There is also the possibility to import a SQL dump if a file 'sql/dump.sql' exists.
 
 ### php
 PHP FPM Alpine. Contains the php.ini.

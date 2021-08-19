@@ -8,7 +8,7 @@ services:
     ports:
       - '80:80'
     volumes:
-      - ./site:/var/www/html
+      - site-data:/var/www/html
       - ./container/web/nginx.conf:/etc/nginx/conf.d/default.conf
   
   composer:
@@ -16,7 +16,7 @@ services:
     depends_on:
         - db
     volumes:
-        - ./site:/site
+        - site-data:/site
     environment: 
       TYPO3_INSTALL_DB_USER: ${DB_USER}
       TYPO3_INSTALL_DB_PASSWORD: ${DB_PASS}
@@ -27,11 +27,12 @@ services:
       TYPO3_INSTALL_ADMIN_USER: ${TYPO3_USER}
       TYPO3_INSTALL_ADMIN_PASSWORD: ${TYPO3_PASS}
       TYPO3_INSTALL_SITE_NAME: ${TYPO3_SITE_NAME}
+      COMPOSER_PROCESS_TIMEOUT: ${COMPOSER_TIMEOUT}
   
   php:
       build: ./container/php/.
       volumes:
-        - ./site:/var/www/html
+        - site-data:/var/www/html
         - ./container/php/php.ini:/usr/local/etc/php/php.ini
         - ./container/php/log.conf:/usr/local/etc/php-fpm.d/zz-log.conf
       environment: 
@@ -50,3 +51,4 @@ services:
 
 volumes:
   db-data:
+  site-data:

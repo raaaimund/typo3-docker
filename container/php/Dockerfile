@@ -1,5 +1,4 @@
 FROM php:7.3.8-fpm-alpine
-USER root
 RUN apk add --update --no-cache \
     freetype-dev \
     libjpeg-turbo-dev \
@@ -14,4 +13,3 @@ RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --wi
     docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-configure intl && \
     docker-php-ext-install -j$(nproc) intl
-USER www-data

@@ -52,7 +52,7 @@
             "typo3cms install:fixfolderstructure",
             "typo3cms install:generatepackagestates",
             "typo3cms install:setup --no-interaction",
-            "typo3cms database:import < sql/dump.sql",
+            "test -f sql/dump.sql && typo3cms database:import < sql/dump.sql || echo 'Skipping database:import, no such file sql/dump.sql.'",
             "typo3cms cache:flush"
         ],
         "post-autoload-dump": [
